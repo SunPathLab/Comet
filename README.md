@@ -1,4 +1,6 @@
-# tumopp
+# tumopp-passenger
+
+this is a modification of tumopp package with passenger mutation recorded in each cell division.
 
 [![Build Status](https://travis-ci.org/heavywatal/tumopp.svg?branch=master)](https://travis-ci.org/heavywatal/tumopp)
 
