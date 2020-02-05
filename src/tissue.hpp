@@ -37,6 +37,7 @@ class Tissue {
       const EventRates& init_event_rates=EventRates{},
       uint_fast32_t seed=std::random_device{}(),
       uint_fast32_t seed2=std::random_device{}(),
+      uint_fast32_t seed3=std::random_device{}(),
       bool enable_benchmark=false);
     ~Tissue();
 
@@ -168,6 +169,8 @@ class Tissue {
     std::unique_ptr<urbg_t> engine_;
     //! another random number generator
     std::unique_ptr<urbg_t> engine2_;
+    //! passenger mutation random number generator
+    std::unique_ptr<urbg_t> engine3_;
 };
 
 } // namespace tumopp

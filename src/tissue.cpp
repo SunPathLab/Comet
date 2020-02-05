@@ -22,9 +22,11 @@ Tissue::Tissue(
   const EventRates& init_event_rates,
   const uint_fast32_t seed,
   const uint_fast32_t seed2,
+  const uint_fast32_t seed3,
   const bool enable_benchmark):
   engine_(std::make_unique<urbg_t>(seed)),
-  engine2_(std::make_unique<urbg_t>(seed2)) {
+  engine2_(std::make_unique<urbg_t>(seed2)),
+  engine3_(std::make_unique<urbg_t>(seed3)) {
     if (enable_benchmark) {
         benchmark_ = std::make_unique<Benchmark>();
         benchmark_->append(0u);
@@ -104,10 +106,10 @@ bool Tissue::grow(const size_t max_size, const double max_time,
                 daughter->differentiate(*engine_);
                 daughter->set_time_of_birth(time_, ++id_tail_, ancestor);
 
-                drivers_ << mother->mutate(*engine_);
-                passengers_ << mother->mutate2(*engine2_);
-                drivers_ << daughter->mutate(*engine_);
-                passengers_ << daughter->mutate2(*engine2_);
+                drivers_ << mother->mutate(*engine_, *engine3_);
+                passengers_ << mother->mutate2(*engine2_, *engine3_);
+                drivers_ << daughter->mutate(*engine_, *engine3_);
+                passengers_ << daughter->mutate2(*engine2_, *engine3_);
 
                 if (extant_cells_.size() == mutation_timing) {
                     mutation_timing = 0u; // once
@@ -363,12 +365,12 @@ std::ostream& Tissue::write_snapshots(std::ostream& ost) const {
 }
 
 std::ostream& Tissue::write_drivers(std::ostream& ost) const {
-    ost << "id\ttype\tcoef\n" << drivers_.rdbuf();
+    ost << "id\ttype\tcoor\tcoef\n" << drivers_.rdbuf();
     return ost;
 }
 
 std::ostream& Tissue::write_passengers(std::ostream& ost) const {
-    ost << "id\ttype\n" << passengers_.rdbuf();
+    ost << "id\tcoor\n" << passengers_.rdbuf();
     return ost;
 }
 

@@ -104,9 +104,9 @@ class Cell {
     Cell& operator=(Cell&&) = default;
 
     //! driver mutation
-    std::string mutate(urbg_t&);
+    std::string mutate(urbg_t&, urbg_t&);
     //! passenger mutation
-  std::string mutate2(urbg_t&);
+    std::string mutate2(urbg_t&, urbg_t&);
     //! driver mutation on all traits
     std::string force_mutate(urbg_t&);
 

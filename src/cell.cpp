@@ -58,7 +58,11 @@ std::normal_distribution<double> GAUSS_DEATH(Cell::param().MEAN_DEATH, Cell::par
 std::normal_distribution<double> GAUSS_ALPHA(Cell::param().MEAN_ALPHA, Cell::param().SD_ALPHA);
 std::normal_distribution<double> GAUSS_MIGRA(Cell::param().MEAN_MIGRA, Cell::param().SD_MIGRA);
 std::poisson_distribution<int> poisson_distribution (0.96);
-
+std::uniform_int_distribution<int> uniform_distribution(1000001, 50000000); // define the range of mutational space, here exome
+std::uniform_int_distribution<int> uniform_distribution_birth(1, 200000);  // define the range of driver (birth rate) mutational space
+std::uniform_int_distribution<int> uniform_distribution_migrate(200001, 500000);   // define the range of driver (death rate) mutational space
+std::uniform_int_distribution<int> uniform_distribution_death(500001, 1000000);  // define the range of driver (migration rate) mutational space
+  
 }// namespace
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////
 
@@ -82,41 +86,43 @@ void Cell::differentiate(urbg_t& engine) {
     proliferation_capacity_ = static_cast<int8_t>(PARAM_.MAX_PROLIFERATION_CAPACITY);
 }
 
-std::string Cell::mutate(urbg_t& engine) {
+std::string Cell::mutate(urbg_t& engine, urbg_t& engine3) {
     auto oss = wtl::make_oss();
     if (BERN_MUT_BIRTH(engine)) {
         event_rates_ = std::make_shared<EventRates>(*event_rates_);
         double s = GAUSS_BIRTH(engine);
-        oss << id_ << "\tbeta\t" << s << "\n";
+        oss << id_ << "\tbeta\t" << std::to_string(uniform_distribution_birth(engine3)) << "\t" << s << "\n";
         event_rates_->birth_rate *= (s += 1.0);
     }
     if (BERN_MUT_DEATH(engine)) {
         event_rates_ = std::make_shared<EventRates>(*event_rates_);
         double s = GAUSS_DEATH(engine);
-        oss << id_ << "\tdelta\t" << s << "\n";
+        oss << id_ << "\tdelta\t" << std::to_string(uniform_distribution_death(engine3)) << "\t" << s << "\n";
         event_rates_->death_rate *= (s += 1.0);
     }
     if (BERN_MUT_ALPHA(engine)) {
         event_rates_ = std::make_shared<EventRates>(*event_rates_);
         double s = GAUSS_ALPHA(engine);
-        oss << id_ << "\talpha\t" << s << "\n";
+        oss << id_ << "\talpha\t" << std::to_string(uniform_distribution_death(engine3)) << "\t" << s << "\n";
         event_rates_->death_prob *= (s += 1.0);
     }
     if (BERN_MUT_MIGRA(engine)) {
         event_rates_ = std::make_shared<EventRates>(*event_rates_);
         double s = GAUSS_MIGRA(engine);
-        oss << id_ << "\trho\t" << s << "\n";
+        oss << id_ << "\trho\t" << std::to_string(uniform_distribution_migrate(engine3)) << "\t" << s << "\n";
         event_rates_->migra_rate *= (s += 1.0);
     }
     return oss.str();
 }
-
-std::string Cell::mutate2(urbg_t& engine) {
+ 
+std::string Cell::mutate2(urbg_t& engine2, urbg_t& engine3) {
     auto oss = wtl::make_oss();
-    auto n_passengers = poisson_distribution(engine);
+    auto n_passengers = poisson_distribution(engine2);
     std::string passengers = "";
-    for (int i=0; i<n_passengers; ++i)
-      passengers = passengers + std::to_string(i) + ",";
+    
+    for(int n=0; n < n_passengers; ++n)
+      passengers = passengers + std::to_string(uniform_distribution(engine3)) + ",";
+    
     oss << id_ << "\t" << passengers << "\n";
     return oss.str();
 }
