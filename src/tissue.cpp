@@ -111,10 +111,11 @@ bool Tissue::grow(const size_t max_size, const double max_time,
                 drivers_ << daughter->mutate(*engine_, *engine3_);
                 passengers_ << daughter->mutate2(*engine2_, *engine3_);
 
-                if (extant_cells_.size() == mutation_timing) {
+                if (extant_cells_.size() == mutation_timing) {  //introduce mutation at specific cell
                     mutation_timing = 0u; // once
                     drivers_ << daughter->force_mutate(*engine_);
                 }
+                
                 queue_push(mother);
                 queue_push(daughter);
                 const auto size = extant_cells_.size();
@@ -128,7 +129,12 @@ bool Tissue::grow(const size_t max_size, const double max_time,
             }
         } else if (mother->next_event() == Event::death) {
             extant_cells_.erase(mother);
+            
+            // need to keep the information of dead cells
+            dead_cells_.insert(mother);
+            
             if (extant_cells_.empty()) break;
+            
         } else {
             migrate(mother);
             queue_push(mother);
@@ -354,6 +360,16 @@ std::ostream& Tissue::write_history(std::ostream& ost) const {
     ost << Cell::header() << "\n";
     std::unordered_set<unsigned> done;
     for (const auto& p: extant_cells_) {
+        p->traceback(ost, &done);
+    }
+    return ost;
+}
+
+std::ostream& Tissue::write_dead_history(std::ostream& ost) const {
+    ost.precision(std::cout.precision());
+    ost << Cell::header() << "\n";
+    std::unordered_set<unsigned> done;
+    for (const auto& p: dead_cells_) {
         p->traceback(ost, &done);
     }
     return ost;

@@ -57,6 +57,8 @@ class Tissue {
 
     //! Write #extant_cells_ and their ancestors
     std::ostream& write_history(std::ostream&) const;
+    //! Write #dead_cells_ and their ancestors
+    std::ostream& write_dead_history(std::ostream&) const;
     //! Write #snapshots_
     std::ostream& write_snapshots(std::ostream&) const;
     //! Write #drivers_
@@ -144,6 +146,11 @@ class Tissue {
         std::shared_ptr<Cell>,
         hash_shptr_cell,
         equal_shptr_cell> extant_cells_;
+    //! put dead cells in
+    std::unordered_set<
+        std::shared_ptr<Cell>,
+        hash_shptr_cell,
+        equal_shptr_cell> dead_cells_;
     //! incremented when a new cell is born
     unsigned id_tail_ = 0;
 
