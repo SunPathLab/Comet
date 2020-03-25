@@ -103,7 +103,7 @@ bool Tissue::grow(const size_t max_size, const double max_time,
           // ruping: random sampling of seeding cells over time, force them to be dead
           const auto cur_size = extant_cells_.size();
           //std::cout << cur_size << std::endl;
-          if ( cur_size > 0  && cur_size < max_size && cur_size != seedingSize_cur && cur_size % 1000 == 0 ) {
+          if ( cur_size > 0  && cur_size < max_size && cur_size != seedingSize_cur && cur_size % 20000 == 0 ) {
              mother->set_time_of_death(time_);
              extant_cells_.erase(mother);            
              // ruping: keep the information of the seeding cells
