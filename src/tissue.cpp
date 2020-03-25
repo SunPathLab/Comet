@@ -84,6 +84,7 @@ bool Tissue::grow(const size_t max_size, const double max_time,
     unsigned i_snapshot = 1u;
     double time_snapshot = i_snapshot * snapshot_interval;
     constexpr size_t progress_interval{1 << 12};
+    unsigned int seedingSize_cur = 0;
     while (true) {
         auto it = queue_.begin();
         time_ = it->first;
@@ -98,6 +99,21 @@ bool Tissue::grow(const size_t max_size, const double max_time,
             time_snapshot = ++i_snapshot * snapshot_interval;
         }
         if (mother->next_event() == Event::birth) {
+
+          // ruping: random sampling of seeding cells over time, force them to be dead
+          const auto cur_size = extant_cells_.size();
+          //std::cout << cur_size << std::endl;
+          if ( cur_size > 0  && cur_size < max_size && cur_size != seedingSize_cur && cur_size % 1000 == 0 ) {
+             mother->set_time_of_death(time_);
+             extant_cells_.erase(mother);            
+             // ruping: keep the information of the seeding cells
+             dead_cells_.insert(mother);
+             // ruping: seeding another tumor
+             seedingCells_ << mother->seeding(cur_size);
+             seedingSize_cur = cur_size;
+             continue;
+          }
+          
             const auto daughter = std::make_shared<Cell>(*mother);
             if (insert(daughter)) {
                 const auto ancestor = std::make_shared<Cell>(*mother);
@@ -128,11 +144,10 @@ bool Tissue::grow(const size_t max_size, const double max_time,
                 continue;  // skip write()
             }
         } else if (mother->next_event() == Event::death) {
+            mother->set_time_of_death(time_);  // ruping: re-remember the death time of the dead cell
             extant_cells_.erase(mother);
             
-            // need to keep the information of dead cells
-            dead_cells_.insert(mother);
-            
+            dead_cells_.insert(mother);   // ruping: need to keep the information of dead cells
             if (extant_cells_.empty()) break;
             
         } else {
@@ -387,6 +402,11 @@ std::ostream& Tissue::write_drivers(std::ostream& ost) const {
 
 std::ostream& Tissue::write_passengers(std::ostream& ost) const {
     ost << "id\tcoor\n" << passengers_.rdbuf();
+    return ost;
+}
+
+std::ostream& Tissue::write_seedingCells(std::ostream& ost) const {
+    ost << "id\tNs\n" << seedingCells_.rdbuf();
     return ost;
 }
 

@@ -109,6 +109,8 @@ class Cell {
     std::string mutate2(urbg_t&, urbg_t&);
     //! driver mutation on all traits
     std::string force_mutate(urbg_t&);
+    //! seeding another tumor
+    std::string seeding(unsigned int);
 
     //! Calc dt and set #next_event_
     double delta_time(urbg_t&, double now, double positional_value, bool surrounded=false);

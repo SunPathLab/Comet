@@ -145,6 +145,12 @@ std::string Cell::force_mutate(urbg_t& engine) {
     return oss.str();
 }
 
+std::string Cell::seeding(unsigned int Ns) {
+    auto oss = wtl::make_oss();
+    oss << id_ << "\t" << Ns << "\n";
+    return oss.str();
+}
+
 double Cell::delta_time(urbg_t& engine, const double now, const double positional_value, const bool surrounded) {
     double t_birth = std::numeric_limits<double>::infinity();
     double t_death = std::numeric_limits<double>::infinity();

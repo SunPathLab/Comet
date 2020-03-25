@@ -41,6 +41,10 @@ void write(tumopp::Simulation& simulation) {
         ofstream ofs{"dead_cells" + ext};
         tissue.write_dead_history(ofs);
     }
+    {
+      ofstream ofs{"sampled_seeding_cells" + ext};
+      tissue.write_seedingCells(ofs);
+    }
     if (tissue.has_snapshots()) {
         ofstream ofs{"snapshots" + ext};
         tissue.write_snapshots(ofs);

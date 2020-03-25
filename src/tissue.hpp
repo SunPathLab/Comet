@@ -65,6 +65,8 @@ class Tissue {
     std::ostream& write_drivers(std::ostream&) const;
     //! Write #passengers_
     std::ostream& write_passengers(std::ostream&) const;
+    //! Write #seedingCells_
+    std::ostream& write_seedingCells(std::ostream&) const;
     //! Write #benchmark_
     std::ostream& write_benchmark(std::ostream&) const;
     friend std::ostream& operator<< (std::ostream&, const Tissue&);
@@ -168,6 +170,8 @@ class Tissue {
     std::stringstream drivers_;
     //! record passenger mutations
     std::stringstream passengers_;
+    //! record seeding cells
+    std::stringstream seedingCells_;
 
     //! record resource usage
     std::unique_ptr<Benchmark> benchmark_;
