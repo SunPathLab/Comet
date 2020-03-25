@@ -100,17 +100,19 @@ bool Tissue::grow(const size_t max_size, const double max_time,
         }
         if (mother->next_event() == Event::birth) {
 
-          // ruping: random sampling of seeding cells over time, force them to be dead
+          // ruping: random sampling of seeding cells, and forcing them to be dead
           const auto cur_size = extant_cells_.size();
           //std::cout << cur_size << std::endl;
           if ( cur_size > 0  && cur_size < max_size && cur_size != seedingSize_cur && cur_size % 20000 == 0 ) {
+
              mother->set_time_of_death(time_);
-             extant_cells_.erase(mother);            
              // ruping: keep the information of the seeding cells
              dead_cells_.insert(mother);
              // ruping: seeding another tumor
              seedingCells_ << mother->seeding(cur_size);
              seedingSize_cur = cur_size;
+             
+             extant_cells_.erase(mother);            
              continue;
           }
           
@@ -144,10 +146,10 @@ bool Tissue::grow(const size_t max_size, const double max_time,
                 continue;  // skip write()
             }
         } else if (mother->next_event() == Event::death) {
+          
             mother->set_time_of_death(time_);  // ruping: re-remember the death time of the dead cell
-            extant_cells_.erase(mother);
-            
             dead_cells_.insert(mother);   // ruping: need to keep the information of dead cells
+            extant_cells_.erase(mother);
             if (extant_cells_.empty()) break;
             
         } else {
