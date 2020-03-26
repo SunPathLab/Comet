@@ -388,7 +388,7 @@ std::ostream& Tissue::write_dead_history(std::ostream& ost) const {
     std::unordered_set<unsigned> done;
     for (const auto& p: dead_cells_) {
       //p->traceback(ost, &done);
-      p->write(ost);
+      p->write(ost) << "\n";
     }
     return ost;
 }
