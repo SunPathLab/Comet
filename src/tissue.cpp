@@ -91,7 +91,7 @@ bool Tissue::grow(const size_t max_size, const double max_time,
         const auto mother = std::move(it->second);
         queue_.erase(it);
         if (time_ > max_time || extant_cells_.size() >= max_size) {
-            success = true; // maybe not; but want to exit with record
+            success = true;   // maybe not; but want to exit with record
             break;
         }
         if (time_snapshot > 0.0 && time_ > time_snapshot) {
@@ -114,10 +114,11 @@ bool Tissue::grow(const size_t max_size, const double max_time,
              
              extant_cells_.erase(mother);
              continue;
+
           }
           
             const auto daughter = std::make_shared<Cell>(*mother);
-            if (insert(daughter)) {
+            if (insert(daughter)) {                             // if insert is successful
                 const auto ancestor = std::make_shared<Cell>(*mother);
                 ancestor->set_time_of_death(time_);
                 mother->set_time_of_birth(time_, ++id_tail_, ancestor);
@@ -143,12 +144,17 @@ bool Tissue::grow(const size_t max_size, const double max_time,
                 }
             } else {
                 queue_push(mother, true);
-                continue;  // skip write()
+                continue;                            // skip write()
             }
+            
         } else if (mother->next_event() == Event::death) {
           
             mother->set_time_of_death(time_);  // ruping: re-remember the death time of the dead cell
-            dead_cells_.insert(mother);   // ruping: need to keep the information of dead cells
+            if (dead_cells_.insert(mother).second) {
+              std::cout << " dead insert successful" << "\n";
+            } else {
+              std::cout << " dead insert fail" << "\n";
+            }// ruping: need to keep the information of dead cells
             extant_cells_.erase(mother);
             if (extant_cells_.empty()) break;
             
