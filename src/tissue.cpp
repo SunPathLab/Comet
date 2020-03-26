@@ -112,7 +112,7 @@ bool Tissue::grow(const size_t max_size, const double max_time,
              seedingCells_ << mother->seeding(cur_size);
              seedingSize_cur = cur_size;
              
-             extant_cells_.erase(mother);            
+             extant_cells_.erase(mother);
              continue;
           }
           
@@ -387,7 +387,8 @@ std::ostream& Tissue::write_dead_history(std::ostream& ost) const {
     ost << Cell::header() << "\n";
     std::unordered_set<unsigned> done;
     for (const auto& p: dead_cells_) {
-        p->traceback(ost, &done);
+      //p->traceback(ost, &done);
+      p->write(ost);
     }
     return ost;
 }
