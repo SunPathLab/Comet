@@ -130,7 +130,14 @@ class Tissue {
             return hash(x->coord());
         }
     };
-
+  
+    struct hash_shptr_cell_id {
+        //! ruping: hash function for cell ids: for tracking dead cells 
+        size_t operator() (const std::shared_ptr<tumopp::Cell>& x) const noexcept {
+            return hash(x->id_);
+        }
+    };
+  
     //! Equal function object for shptr<Cell>
     struct equal_shptr_cell {
         //! Compare cell coord
@@ -140,6 +147,15 @@ class Tissue {
         }
     };
 
+    struct equal_shptr_cell_id {
+        //! ruping Compare cell ids: for tracking dead cells
+        bool operator() (const std::shared_ptr<tumopp::Cell>& lhs,
+                         const std::shared_ptr<tumopp::Cell>& rhs) const noexcept {
+            return lhs->id_ == rhs->id_;
+        }
+    };    
+
+  
     /////1/////////2/////////3/////////4/////////5/////////6/////////7/////////
     // Data member
 
@@ -151,8 +167,8 @@ class Tissue {
     //! put dead cells in
     std::unordered_set<
         std::shared_ptr<Cell>,
-        hash_shptr_cell,
-        equal_shptr_cell> dead_cells_;
+        hash_shptr_cell_id,
+        equal_shptr_cell_id> dead_cells_;
     //! incremented when a new cell is born
     unsigned id_tail_ = 0;
 
