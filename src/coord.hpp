@@ -28,7 +28,6 @@ inline size_t hash(const coord_t& v) {
     return seed;
 }
 
-
 //! @cond
 //! @name Arithmetic operators for std::array
 //@{

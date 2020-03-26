@@ -133,8 +133,9 @@ class Tissue {
   
     struct hash_shptr_cell_id {
         //! ruping: hash function for cell ids: for tracking dead cells 
-        size_t operator() (const std::shared_ptr<tumopp::Cell>& x) const noexcept {
-            return hash(x->id_);
+        unsigned operator() (const std::shared_ptr<tumopp::Cell>& x) const noexcept {
+          std::hash<unsigned> hash_id;
+          return hash_id(x->id());
         }
     };
   
@@ -151,7 +152,7 @@ class Tissue {
         //! ruping Compare cell ids: for tracking dead cells
         bool operator() (const std::shared_ptr<tumopp::Cell>& lhs,
                          const std::shared_ptr<tumopp::Cell>& rhs) const noexcept {
-            return lhs->id_ == rhs->id_;
+          return lhs->id() == rhs->id();
         }
     };    
 

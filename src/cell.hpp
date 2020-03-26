@@ -156,6 +156,8 @@ class Cell {
     Event next_event() const noexcept {return next_event_;}
     //! Get #coord_
     const coord_t& coord() const noexcept {return coord_;}
+    //! ruping: Get #id_
+    const unsigned& id() const noexcept {return id_;}
     //@}
 
     //! TSV header
