@@ -100,22 +100,22 @@ bool Tissue::grow(const size_t max_size, const double max_time,
         }
         if (mother->next_event() == Event::birth) {
 
-          // ruping: random sampling of seeding cells, and forcing them to be dead
-          const auto cur_size = extant_cells_.size();
-          //std::cout << cur_size << std::endl;
-          if ( cur_size > 0  && cur_size < max_size && cur_size != seedingSize_cur && cur_size % 20000 == 0 ) {
+            // ruping: random sampling of seeding cells, and forcing them to be dead
+            const auto cur_size = extant_cells_.size();
+            if ( cur_size > 0  && cur_size < max_size && cur_size != seedingSize_cur && cur_size % 20000 == 0 ) {
 
-             mother->set_time_of_death(time_);
-             // ruping: keep the information of the seeding cells
-             dead_cells_.insert(mother);
-             // ruping: seeding another tumor
-             seedingCells_ << mother->seeding(cur_size);
-             seedingSize_cur = cur_size;
+               mother->set_time_of_death(time_);
+               // ruping: keep the information of the seeding cells
+               dead_cells_.insert(mother);
              
-             extant_cells_.erase(mother);
-             continue;
+               // ruping: seeding another tumor
+               seedingCells_ << mother->seeding(cur_size);
+               seedingSize_cur = cur_size;
+             
+               extant_cells_.erase(mother);
+               continue;
 
-          }
+            }
           
             const auto daughter = std::make_shared<Cell>(*mother);
             if (insert(daughter)) {                             // if insert is successful
@@ -150,11 +150,7 @@ bool Tissue::grow(const size_t max_size, const double max_time,
         } else if (mother->next_event() == Event::death) {
           
             mother->set_time_of_death(time_);  // ruping: re-remember the death time of the dead cell
-            if (dead_cells_.insert(mother).second) {
-              std::cout << " dead insert successful" << "\n";
-            } else {
-              std::cout << " dead insert fail" << "\n";
-            }// ruping: need to keep the information of dead cells
+            dead_cells_.insert(mother);        // ruping: need to keep the information of dead cells
             extant_cells_.erase(mother);
             if (extant_cells_.empty()) break;
             
@@ -393,8 +389,8 @@ std::ostream& Tissue::write_dead_history(std::ostream& ost) const {
     ost << Cell::header() << "\n";
     std::unordered_set<unsigned> done;
     for (const auto& p: dead_cells_) {
-      //p->traceback(ost, &done);
-      p->write(ost) << "\n";
+      p->traceback(ost, &done);
+      //p->write(ost) << "\n";
     }
     return ost;
 }
