@@ -375,7 +375,7 @@ uint_fast8_t Tissue::num_empty_neighbors(const coord_t& coord) const {
 }
 
 std::ostream& Tissue::write_history(std::ostream& ost) const {
-    ost.precision(std::cout.precision());
+    ost.precision(std::cout.precision(12));   //ruping 
     ost << Cell::header() << "\n";
     std::unordered_set<unsigned> done;
     for (const auto& p: extant_cells_) {
@@ -385,7 +385,7 @@ std::ostream& Tissue::write_history(std::ostream& ost) const {
 }
 
 std::ostream& Tissue::write_dead_history(std::ostream& ost) const {
-    ost.precision(std::cout.precision());
+  ost.precision(std::cout.precision(12));    //ruping
     ost << Cell::header() << "\n";
     std::unordered_set<unsigned> done;
     for (const auto& p: dead_cells_) {
