@@ -141,8 +141,8 @@ Simulation::Simulation(const std::vector<std::string>& arguments)
   cell_params_(std::make_unique<CellParams>()) {
     std::ios::sync_with_stdio(false);
     std::cin.tie(0);
-    std::cout.precision(9);
-    std::cerr.precision(6);
+    std::cout.precision(12);    //ruping
+    std::cerr.precision(9);     //ruping
 
     VM.clear();
     nlohmann::json vm_local;
