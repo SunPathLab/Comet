@@ -2,6 +2,11 @@
 
 this is a modification of tumopp package with passenger mutation recorded in each cell division.
 
+The differences between this version and the original tumopp packages is:
+- passenger mutations are generated and printed out for each cell
+- all dead cells and lineages are printed out (for lineage tracing)
+- Metastatic seeding cells are sampled randomly over time (removed from the growing tumor)
+
 [![Build Status](https://travis-ci.org/heavywatal/tumopp.svg?branch=master)](https://travis-ci.org/heavywatal/tumopp)
 
 *tumopp* is a fast and flexible tumor growth simulator.
