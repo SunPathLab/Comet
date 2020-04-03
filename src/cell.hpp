@@ -93,6 +93,7 @@ class Cell {
       time_of_birth_(other.time_of_birth_),
       coord_(other.coord_),
       id_(other.id_),
+      TsizeNow_(other.TsizeNow_),  // ruping
       proliferation_capacity_(other.proliferation_capacity_) {}
     //! Destructor
     ~Cell() noexcept = default;
