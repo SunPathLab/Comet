@@ -196,7 +196,7 @@ std::string Cell::header() {
     oss << "x\ty\tz\t"
         << "id\tancestor\t"
         << "birth\tdeath\t"
-        << "omega";
+        << "omega\tNt";     //ruping
     return oss.str();
 }
 
@@ -206,7 +206,7 @@ std::ostream& Cell::write(std::ostream& ost) const {
         << id_ << "\t"
         << (ancestor_ ? ancestor_->id_ : 0u) << "\t"
         << time_of_birth_ << "\t" << time_of_death_ << "\t"
-        << static_cast<int>(proliferation_capacity_);
+        << static_cast<int>(proliferation_capacity_) << "\t" << TsizeNow_ ;
 }
 
 std::ostream& Cell::traceback(std::ostream& ost, std::unordered_set<unsigned>* done) const {

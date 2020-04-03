@@ -46,8 +46,8 @@ Tissue::Tissue(
             const auto daughter = std::make_shared<Cell>(*mother);
             const auto ancestor = std::make_shared<Cell>(*mother);
             ancestor->set_time_of_death(0.0);
-            mother->set_time_of_birth(0.0, ++id_tail_, ancestor);
-            daughter->set_time_of_birth(0.0, ++id_tail_, ancestor);
+            mother->set_time_of_birth(0.0, ++id_tail_, ancestor, extant_cells_.size());      //ruping
+            daughter->set_time_of_birth(0.0, ++id_tail_, ancestor, extant_cells_.size());    //ruping
             daughter->set_coord(initial_coords[extant_cells_.size()]);
             extant_cells_.insert(daughter);
             if (extant_cells_.size() >= initial_size) break;
@@ -121,9 +121,9 @@ bool Tissue::grow(const size_t max_size, const double max_time,
             if (insert(daughter)) {                             // if insert is successful
                 const auto ancestor = std::make_shared<Cell>(*mother);
                 ancestor->set_time_of_death(time_);
-                mother->set_time_of_birth(time_, ++id_tail_, ancestor);
+                mother->set_time_of_birth(time_, ++id_tail_, ancestor, extant_cells_.size());    //ruping
                 daughter->differentiate(*engine_);
-                daughter->set_time_of_birth(time_, ++id_tail_, ancestor);
+                daughter->set_time_of_birth(time_, ++id_tail_, ancestor, extant_cells_.size());  //ruping
 
                 drivers_ << mother->mutate(*engine_, *engine3_);
                 passengers_ << mother->mutate2(*engine2_, *engine3_);

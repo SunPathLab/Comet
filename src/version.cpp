@@ -3,6 +3,6 @@
 namespace tumopp {
 
 const char* const PROJECT_NAME = "tumopp";
-const char* const PROJECT_VERSION = "eec7955-dirty";
+const char* const PROJECT_VERSION = "399484e-dirty";
 
 }
