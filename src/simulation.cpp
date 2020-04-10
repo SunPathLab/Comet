@@ -202,7 +202,7 @@ void Simulation::run() {
         std::cerr << "Warning: size = " << tissue_->size() << std::endl;
     }
     if (max_time == 0.0 && plateau_time > 0.0) {
-        tissue_->plateau(plateau_time);
+      tissue_->plateau(plateau_time);
     }
     if (max_time == 0.0 && treatment > 0.0) {
         tissue_->treatment(treatment, resistant);
