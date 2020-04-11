@@ -76,6 +76,7 @@ void Tissue::init_coord(const unsigned dimensions, const std::string& coordinate
 
 bool Tissue::grow(const size_t max_size, const double max_time,
                   const double snapshot_interval,
+                  size_t seeding_size,
                   size_t recording_early_growth,
                   size_t mutation_timing,
                   bool verbose) {
@@ -102,7 +103,7 @@ bool Tissue::grow(const size_t max_size, const double max_time,
 
             // ruping: random sampling of seeding cells, and forcing them to be dead
             const auto cur_size = extant_cells_.size();
-            if ( cur_size > 0  && cur_size < max_size && cur_size != seedingSize_cur && cur_size % 4000 == 0 ) {  //sample acording to size
+            if ( cur_size > 0  && cur_size < max_size && cur_size != seedingSize_cur && cur_size % seeding_size == 0 ) {  //sample acording to size
 
                mother->set_time_of_death(time_);
                // ruping: keep the information of the seeding cells

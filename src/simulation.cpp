@@ -41,6 +41,7 @@ inline clipp::group general_options(nlohmann::json* vm) {
     `-U,--mutate`       | \f$N_\mu\f$    | -
     `-o,--outdir`       | -              | -
     `-I,--interval`     | -              | -
+    `-S,--seedingSize`  | -              | -
     `-R,--record`       | -              | -
     `--seed`            | -              | -
 */
@@ -69,6 +70,8 @@ inline clipp::group simulation_options(nlohmann::json* vm) {
       wtl::option(vm, {"o", "outdir"}, OUT_DIR),
       wtl::option(vm, {"I", "interval"}, 0.0,
         "Time interval to take snapshots"),
+      wtl::option(vm, {"S", "seedingSize"}, 10000u,
+        "Tumor Size interval to seed a metastatic tumor"),
       wtl::option(vm, {"R", "record"}, 0u,
         "Tumor size to stop taking snapshots"),
       wtl::option(vm, {"extinction"}, 100u,
@@ -191,6 +194,7 @@ void Simulation::run() {
             max_size,
             max_time > 0.0 ? max_time : std::log2(max_size) * 100.0,
             VM.at("interval").get<double>(),
+            VM.at("seedingSize").get<size_t>(),  //ruping
             VM.at("record").get<size_t>(),
             VM.at("mutate").get<size_t>(),
             VM.at("verbose").get<bool>()

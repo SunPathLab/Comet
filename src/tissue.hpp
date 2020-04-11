@@ -46,6 +46,7 @@ class Tissue {
       size_t max_size,
       double max_time=100.0,
       double snapshot_interval=0.0,
+      size_t seeding_size=10000u,  //ruping
       size_t recording_early_growth=0u,
       size_t mutation_timing=0u,
       bool verbose=false);
