@@ -118,10 +118,11 @@ class Cell {
     //! Change #proliferation_capacity_ stochastically
     void differentiate(urbg_t&);
     //! Set #time_of_birth_; reset other properties
-    void set_time_of_birth(double t, unsigned i, const std::shared_ptr<Cell>& ancestor) noexcept {
+    void set_time_of_birth(double t, unsigned i, const std::shared_ptr<Cell>& ancestor, unsigned TsizeNow) noexcept {
         time_of_birth_ = t;
         id_ = i;
         ancestor_ = ancestor;
+        TsizeNow_ = TsizeNow;  //ruping
         if (is_differentiated()) {--proliferation_capacity_;}
     }
     //! Set #event_rates_->death_prob and #next_event_

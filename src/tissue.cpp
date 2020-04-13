@@ -46,8 +46,8 @@ Tissue::Tissue(
             const auto daughter = std::make_shared<Cell>(*mother);
             const auto ancestor = std::make_shared<Cell>(*mother);
             ancestor->set_time_of_death(0.0, extant_cells_.size());   //ruping
-            mother->set_time_of_birth(0.0, ++id_tail_, ancestor);
-            daughter->set_time_of_birth(0.0, ++id_tail_, ancestor);
+            mother->set_time_of_birth(0.0, ++id_tail_, ancestor, extant_cells_.size());
+            daughter->set_time_of_birth(0.0, ++id_tail_, ancestor, extant_cells_.size());
             daughter->set_coord(initial_coords[extant_cells_.size()]);
             extant_cells_.insert(daughter);
             if (extant_cells_.size() >= initial_size) break;
@@ -105,7 +105,7 @@ bool Tissue::grow(const size_t max_size, const double max_time,
             const auto cur_size = extant_cells_.size();
             if ( cur_size > 0  && cur_size < max_size && cur_size != seedingSize_cur && cur_size % seeding_size == 0 ) {  //sample acording to size
 
-              mother->set_time_of_death(time_, extant_cells_.size());
+               mother->set_time_of_death(time_, extant_cells_.size());
                // ruping: keep the information of the seeding cells
                dead_cells_.insert(mother);
 
@@ -126,9 +126,9 @@ bool Tissue::grow(const size_t max_size, const double max_time,
             if (insert(daughter)) {                             // if insert is successful
                 const auto ancestor = std::make_shared<Cell>(*mother);
                 ancestor->set_time_of_death(time_, extant_cells_.size());   //ruping
-                mother->set_time_of_birth(time_, ++id_tail_, ancestor);
+                mother->set_time_of_birth(time_, ++id_tail_, ancestor, extant_cells_.size());
                 daughter->differentiate(*engine_);
-                daughter->set_time_of_birth(time_, ++id_tail_, ancestor);
+                daughter->set_time_of_birth(time_, ++id_tail_, ancestor, extant_cells_.size());
 
                 drivers_ << mother->mutate(*engine_, *engine3_);
                 passengers_ << mother->mutate2(*engine2_, *engine3_);
