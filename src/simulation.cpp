@@ -118,6 +118,7 @@ cell_options(nlohmann::json* vm, EventRates* init_event_rates, CellParams* cell_
         "p_s: Probability of symmetric division"),
       wtl::option(vm, {"r", "prolif"}, &cell_params->MAX_PROLIFERATION_CAPACITY,
         u8"ω: Maximum number of division for a TAC"),
+      wtl::option(vm, {"u", "upassenger"}, &cell_params->RATE_PASSENGER, u8"μ"),  
       (
         wtl::option(vm, {"ub"}, &cell_params->RATE_BIRTH, u8"μ_β"),
         wtl::option(vm, {"ud"}, &cell_params->RATE_DEATH, u8"μ_δ"),

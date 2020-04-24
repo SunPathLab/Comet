@@ -57,7 +57,7 @@ std::normal_distribution<double> GAUSS_BIRTH(Cell::param().MEAN_BIRTH, Cell::par
 std::normal_distribution<double> GAUSS_DEATH(Cell::param().MEAN_DEATH, Cell::param().SD_DEATH);
 std::normal_distribution<double> GAUSS_ALPHA(Cell::param().MEAN_ALPHA, Cell::param().SD_ALPHA);
 std::normal_distribution<double> GAUSS_MIGRA(Cell::param().MEAN_MIGRA, Cell::param().SD_MIGRA);
-std::poisson_distribution<int> poisson_distribution (0.96);
+std::poisson_distribution<int> poisson_distribution (Cell::param().RATE_PASSENGER);
 std::uniform_int_distribution<int> uniform_distribution(1000001, 50000000); // define the range of mutational space, here exome
 std::uniform_int_distribution<int> uniform_distribution_birth(1, 200000);  // define the range of driver (birth rate) mutational space
 std::uniform_int_distribution<int> uniform_distribution_migrate(200001, 500000);   // define the range of driver (death rate) mutational space

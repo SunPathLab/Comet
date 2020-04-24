@@ -72,6 +72,8 @@ struct CellParams {
     double SD_ALPHA = 0.0;
     //! \f$\sigma_\rho\f$
     double SD_MIGRA = 0.0;
+    //! \f$\mu_\alpha\f$
+    double RATE_PASSENGER = 0.0;
 };
 
 /*! @brief Cancer cell
