@@ -78,6 +78,7 @@ void Cell::param(const param_type& p) {
     GAUSS_DEATH.param(decltype(GAUSS_DEATH)::param_type(PARAM_.MEAN_DEATH, PARAM_.SD_DEATH));
     GAUSS_ALPHA.param(decltype(GAUSS_ALPHA)::param_type(PARAM_.MEAN_ALPHA, PARAM_.SD_ALPHA));
     GAUSS_MIGRA.param(decltype(GAUSS_MIGRA)::param_type(PARAM_.MEAN_MIGRA, PARAM_.SD_MIGRA));
+    poisson_distribution.param(decltype(poisson_distribution)::param_type(PARAM_.RATE_PASSENGER));   //ruping
 }
 
 void Cell::differentiate(urbg_t& engine) {
