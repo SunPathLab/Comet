@@ -78,6 +78,7 @@ inline clipp::group simulation_options(nlohmann::json* vm) {
         "Maximum number of trials in case of extinction"),
       wtl::option(vm, {"benchmark"}, false),
       wtl::option(vm, {"seed"}, seed),
+      wtl::option(vm, {"stopMutH"}, false),    //ruping
       wtl::option(vm, {"v", "verbose"}, false, "Verbose output")
     ).doc("Simulation:");
 }
@@ -198,6 +199,7 @@ void Simulation::run() {
             VM.at("seedingSize").get<size_t>(),  //ruping
             VM.at("record").get<size_t>(),
             VM.at("mutate").get<size_t>(),
+            VM.at("stopMutH").get<bool>(),      //ruping
             VM.at("verbose").get<bool>()
         );
         if (success) break;

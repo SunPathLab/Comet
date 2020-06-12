@@ -76,9 +76,10 @@ void Tissue::init_coord(const unsigned dimensions, const std::string& coordinate
 
 bool Tissue::grow(const size_t max_size, const double max_time,
                   const double snapshot_interval,
-                  size_t seeding_size,
+                  size_t seeding_size,        // ruping
                   size_t recording_early_growth,
                   size_t mutation_timing,
+                  bool stopMutH,              // ruping
                   bool verbose) {
     if (recording_early_growth > 0u) {snapshots_append();}
     bool success = false;
@@ -131,9 +132,16 @@ bool Tissue::grow(const size_t max_size, const double max_time,
                 daughter->set_time_of_birth(time_, ++id_tail_, ancestor, extant_cells_.size());
 
                 drivers_ << mother->mutate(*engine_, *engine3_);
-                passengers_ << mother->mutate2(*engine2_, *engine3_);
                 drivers_ << daughter->mutate(*engine_, *engine3_);
-                passengers_ << daughter->mutate2(*engine2_, *engine3_);
+                if (! stopMutH) {                                 //ruping
+                   passengers_ << mother->mutate2(*engine2_, *engine3_);
+                   passengers_ << daughter->mutate2(*engine2_, *engine3_);
+                } else {                                          //ruping
+                  if (cur_size <= max_size*0.5) {
+                    passengers_ << mother->mutate2(*engine2_, *engine3_);
+                    passengers_ << daughter->mutate2(*engine2_, *engine3_);
+                  }
+                }
 
                 if (extant_cells_.size() == mutation_timing) {  //introduce mutation at specific cell
                     mutation_timing = 0u; // once
