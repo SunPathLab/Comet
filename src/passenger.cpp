@@ -73,7 +73,7 @@ int main ( int argc, char *argv[] ) {
       continue;
     
     // number of passenger mutations accordin to urate
-    auto n_passengers = poisson_distribution(*engine_);
+    unsigned int n_passengers = poisson_distribution(*engine_);
     
     for(int n=0; n < n_passengers; ++n)
       // sample a coordinate
