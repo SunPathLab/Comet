@@ -37,6 +37,7 @@ int main ( int argc, char *argv[] ) {
   //std::unique_ptr<urbg_t> engine_ = std::make_unique<urbg_t>(seed);
   //std::unique_ptr<urbg_t> engine2_ = std::make_unique<urbg_t>(seed2);
 
+  /*
   std::cout << "id\tcoor\n";    // print out header
   
   std::ifstream passenger_f(param->passenger_f, std::ios_base::in | std::ios_base::binary);
@@ -48,6 +49,7 @@ int main ( int argc, char *argv[] ) {
   //Iterate lines
   std::string line;
   bool firstline = true;
+  */
 
   /*
   while(std::getline(instream_p, line)) {  // each line of $passenger file
@@ -87,7 +89,7 @@ int main ( int argc, char *argv[] ) {
   }
   */
   //Cleanup
-  passenger_f.close();
+  //passenger_f.close();
 
   return 0;
 
