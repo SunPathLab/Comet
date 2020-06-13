@@ -48,7 +48,8 @@ int main ( int argc, char *argv[] ) {
   //Iterate lines
   std::string line;
   bool firstline = true;
-  
+
+  /*
   while(std::getline(instream_p, line)) {  // each line of $passenger file
 
     if (firstline) {
@@ -84,6 +85,7 @@ int main ( int argc, char *argv[] ) {
     // print passenger mutations
     std::cout << cellid << "\t" << passengers << std::endl;
   }
+  */
   //Cleanup
   passenger_f.close();
 
