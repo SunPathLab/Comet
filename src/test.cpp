@@ -26,7 +26,7 @@ int main ( int argc, char *argv[] ) {
   struct parameters *param = 0;
   param = interface(param, argc, argv);
 
-  float urate = std::stof(param->urate);
+  //float urate = std::stof(param->urate);
   //std::poisson_distribution<int> poisson_distribution (urate);
   //std::uniform_int_distribution<int> uniform_distribution(1000001, 50000000); // define the range of mutational space, here a broad exome
   
