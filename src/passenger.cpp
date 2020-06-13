@@ -1,7 +1,7 @@
 /* (c) 2020 - Sun Ruping
    ruping@umn.edu
    Allocate Passenger mutations to each cell after tumopp-passenger run
-   clang++ -o passenger passenger.cpp -lz -lboost_iostreams  */
+   clang++ -o passenger passenger.cpp -lz -lboost_iostreams -std=c++14 */
 
 #include <iostream>
 #include <fstream>
