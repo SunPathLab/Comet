@@ -18,7 +18,7 @@
 #include <random>
 
 using namespace std;
-using urbg_t = std::mt19937_64;
+//using urbg_t = std::mt19937_64;
 
 inline void splitstring(const string &str, vector<string> &elements, const string &delimiter);
 inline string int2str(unsigned int &i);
@@ -36,8 +36,8 @@ int main ( int argc, char *argv[] ) {
   uint_fast32_t seed = std::random_device{}();
   uint_fast32_t seed2 = std::random_device{}();
   
-  std::unique_ptr<urbg_t> engine_ = std::make_unique<urbg_t>(seed);
-  std::unique_ptr<urbg_t> engine2_ = std::make_unique<urbg_t>(seed2);
+  std::unique_ptr<std::mt19937_64> engine_ = std::make_unique<std::mt19937_64>(seed);
+  std::unique_ptr<std::mt19937_64> engine2_ = std::make_unique<std::mt19937_64>(seed2);
 
   std::cout << "id\tcoor\n";    // print out header
   
