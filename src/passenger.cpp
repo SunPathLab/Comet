@@ -20,8 +20,6 @@
 using namespace std;
 
 inline void splitstring(const string &str, vector<string> &elements, const string &delimiter);
-inline string int2str(unsigned int &i);
-inline string float2str(float &f);
 
 int main ( int argc, char *argv[] ) {
 
@@ -33,11 +31,11 @@ int main ( int argc, char *argv[] ) {
   std::uniform_int_distribution<int> uniform_distribution(1000001, 50000000); // define the range of mutational space, here a broad exome
   
   uint_fast32_t seed = std::random_device{}();
-  uint_fast32_t seed2 = std::random_device{}();
+  //uint_fast32_t seed2 = std::random_device{}();
 
   using urbg_t = std::mt19937_64;
   std::unique_ptr<urbg_t> engine_ = std::make_unique<urbg_t>(seed);
-  std::unique_ptr<urbg_t> engine2_ = std::make_unique<urbg_t>(seed2);
+  //std::unique_ptr<urbg_t> engine2_ = std::make_unique<urbg_t>(seed2);
 
   std::cout << "id\tcoor\n";    // print out header
   
@@ -50,6 +48,7 @@ int main ( int argc, char *argv[] ) {
   //Iterate lines
   std::string line;
   bool firstline = true;
+  
   while(std::getline(instream_p, line)) {  // each line of $passenger file
 
     if (firstline) {
@@ -67,7 +66,7 @@ int main ( int argc, char *argv[] ) {
  
     for(i = 1; iter != line_content.end(); iter++, i++) {
       switch (i) {
-      case 1:  // cell id
+      case 1:
         cellid = atoi((*iter).c_str());
         continue;
       default:
@@ -80,7 +79,7 @@ int main ( int argc, char *argv[] ) {
     
     for(int n=0; n < n_passengers; ++n)
       // sample a coordinate
-      passengers = passengers + std::to_string(uniform_distribution(*engine2_)) + ",";
+      passengers = passengers + std::to_string(uniform_distribution(*engine_)) + ",";
     
     // print passenger mutations
     std::cout << cellid << "\t" << passengers << std::endl;
@@ -91,21 +90,6 @@ int main ( int argc, char *argv[] ) {
   return 0;
 
 } //main
-
-
-inline string int2str(unsigned int &i){
-  string s;
-  stringstream ss(s);
-  ss << i;
-  return ss.str();
-}
-
-inline string float2str(float &f){
-  string s;
-  stringstream ss(s);
-  ss << f;
-  return ss.str();
-}
 
 
 inline void splitstring(const string &str, vector<string> &elements, const string &delimiter) {
