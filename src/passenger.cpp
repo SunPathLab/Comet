@@ -49,8 +49,14 @@ int main ( int argc, char *argv[] ) {
   std::istream instream_p(&inbuf_p);
   //Iterate lines
   std::string line;
+  bool firstline = true;
   while(std::getline(instream_p, line)) {  // each line of $passenger file
-   
+
+    if (firstline) {
+      firstline = false;
+      continue;
+    }
+    
     vector <string> line_content;
     splitstring(line, line_content, "\t");
     vector <string>::iterator iter = line_content.begin();
@@ -62,15 +68,13 @@ int main ( int argc, char *argv[] ) {
     for(i = 1; iter != line_content.end(); iter++, i++) {
       switch (i) {
       case 1:  // cell id
-        if (std::string(*iter) == "id"){ break; }
         cellid = atoi((*iter).c_str());
         continue;
       default:
         break;
       }
     }
-    if (cellid == 0) {continue;}
-    
+ 
     // number of passenger mutations accordin to urate
     unsigned int n_passengers = poisson_distribution(*engine_);
     
