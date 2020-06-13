@@ -56,21 +56,20 @@ int main ( int argc, char *argv[] ) {
     vector <string>::iterator iter = line_content.begin();
     unsigned int i;
 
-    unsigned int cellid;
+    unsigned int cellid = 0;
     string passengers;
  
     for(i = 1; iter != line_content.end(); iter++, i++) {
       switch (i) {
       case 1:  // cell id
+        if (std::string(*iter) == "id"){ break; }
         cellid = atoi((*iter).c_str());
         continue;
       default:
         break;
       }
     }
-
-    if (cellid == 0)
-      continue;
+    if (cellid == 0) {continue;}
     
     // number of passenger mutations accordin to urate
     unsigned int n_passengers = poisson_distribution(*engine_);
