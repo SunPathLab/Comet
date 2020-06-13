@@ -30,11 +30,11 @@ int main ( int argc, char *argv[] ) {
   //std::poisson_distribution<int> poisson_distribution (urate);
   //std::uniform_int_distribution<int> uniform_distribution(1000001, 50000000); // define the range of mutational space, here a broad exome
   
-  uint_fast32_t seed = std::random_device{}();
+  //uint_fast32_t seed = std::random_device{}();
   //uint_fast32_t seed2 = std::random_device{}();
 
-  using urbg_t = std::mt19937_64;
-  std::unique_ptr<urbg_t> engine_ = std::make_unique<urbg_t>(seed);
+  //using urbg_t = std::mt19937_64;
+  //std::unique_ptr<urbg_t> engine_ = std::make_unique<urbg_t>(seed);
   //std::unique_ptr<urbg_t> engine2_ = std::make_unique<urbg_t>(seed2);
 
   std::cout << "id\tcoor\n";    // print out header
