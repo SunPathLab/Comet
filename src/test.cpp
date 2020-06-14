@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 //#include <cstdlib>
-//#include <vector>
+#include <vector>
 //#include <map>
 #include <string>
 #include <cstring>
@@ -23,6 +23,7 @@ inline void splitstring(const string &str, vector<string> &elements, const strin
 
 int main ( int argc, char *argv[] ) {
 
+  std::cout << "id\tcoor\n";    // print out header
   struct parameters *param = 0;
   param = interface(param, argc, argv);
 
@@ -46,8 +47,6 @@ int main ( int argc, char *argv[] ) {
   //Iterate lines
   std::string line;
   bool firstline = true;
-
-  std::cout << "id\tcoor\n";    // print out header
   
   /*
   while(std::getline(instream_p, line)) {  // each line of $passenger file
