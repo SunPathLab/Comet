@@ -35,7 +35,7 @@ int main ( int argc, char *argv[] ) {
 
   using urbg_t = std::mt19937_64;  
   uint_fast32_t seed = std::random_device{}();
-  std::unique_ptr<urbg_t> engine_ = std::make_unique<urbg_t>(seed);
+  std::unique_ptr<urbg_t> engine_ = make_unique<urbg_t>(seed);
 
   std::cout << "id\tcoor\n";    // print out header
   
