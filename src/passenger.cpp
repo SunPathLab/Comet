@@ -1,13 +1,12 @@
 /* (c) 2020 - Sun Ruping
    ruping@umn.edu
    Allocate Passenger mutations to each cell after tumopp-passenger run
-   clang++ -o passenger passenger.cpp -lz -lboost_iostreams -std=c++14 */
+   clang++ -o passenger passenger.cpp -lz -lboost_iostreams -std=c++11 */
 
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include <vector>
-#include <map>
 #include <string>
 #include <cstring>
 #include <sstream>
@@ -18,6 +17,10 @@
 #include <random>
 
 using namespace std;
+template<typename T, typename... Args>
+std::unique_ptr<T> make_unique(Args&&... args) {
+    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+}
 
 inline void splitstring(const string &str, vector<string> &elements, const string &delimiter);
 
@@ -29,19 +32,16 @@ int main ( int argc, char *argv[] ) {
   float urate = std::stof(param->urate);
   std::poisson_distribution<int> poisson_distribution (urate);
   std::uniform_int_distribution<int> uniform_distribution(1000001, 50000000); // define the range of mutational space, here a broad exome
-  
-  uint_fast32_t seed = std::random_device{}();
-  //uint_fast32_t seed2 = std::random_device{}();
 
-  using urbg_t = std::mt19937_64;
+  using urbg_t = std::mt19937_64;  
+  uint_fast32_t seed = std::random_device{}();
   std::unique_ptr<urbg_t> engine_ = std::make_unique<urbg_t>(seed);
-  //std::unique_ptr<urbg_t> engine2_ = std::make_unique<urbg_t>(seed2);
 
   std::cout << "id\tcoor\n";    // print out header
   
   std::ifstream passenger_f(param->passenger_f, std::ios_base::in | std::ios_base::binary);
   boost::iostreams::filtering_streambuf<boost::iostreams::input> inbuf_p;
-  inbuf_p.push(boost::iostreams::zlib_decompressor());
+  inbuf_p.push(boost::iostreams::gzip_decompressor());
   inbuf_p.push(passenger_f);
   //Convert streambuf to istream
   std::istream instream_p(&inbuf_p);
