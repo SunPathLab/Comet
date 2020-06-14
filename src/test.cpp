@@ -36,9 +36,6 @@ int main ( int argc, char *argv[] ) {
   //using urbg_t = std::mt19937_64;
   //std::unique_ptr<urbg_t> engine_ = std::make_unique<urbg_t>(seed);
   //std::unique_ptr<urbg_t> engine2_ = std::make_unique<urbg_t>(seed2);
-
-
-  std::cout << "id\tcoor\n";    // print out header
   
   std::ifstream passenger_f(param->passenger_f, std::ios_base::in | std::ios_base::binary);
   boost::iostreams::filtering_streambuf<boost::iostreams::input> inbuf_p;
@@ -50,6 +47,8 @@ int main ( int argc, char *argv[] ) {
   std::string line;
   bool firstline = true;
 
+  std::cout << "id\tcoor\n";    // print out header
+  
   /*
   while(std::getline(instream_p, line)) {  // each line of $passenger file
 
