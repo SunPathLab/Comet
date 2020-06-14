@@ -41,7 +41,7 @@ int main ( int argc, char *argv[] ) {
   
   std::ifstream passenger_f(param->passenger_f, std::ios_base::in | std::ios_base::binary);
   boost::iostreams::filtering_streambuf<boost::iostreams::input> inbuf_p;
-  inbuf_p.push(boost::iostreams::gzip_decompressor());
+  inbuf_p.push(boost::iostreams::zlib_decompressor());
   inbuf_p.push(passenger_f);
   //Convert streambuf to istream
   std::istream instream_p(&inbuf_p);
