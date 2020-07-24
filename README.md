@@ -46,5 +46,8 @@ tumopp -h
 tumopp -N20000 -D3 -Chex -k100 -d0.1 -m0.5 -o OUTPUT_DIR
 ```
 
-Reference:
+## Reference:
 to be added
+
+## Author:
+Ruping Sun
