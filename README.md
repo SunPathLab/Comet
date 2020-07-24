@@ -1,18 +1,16 @@
-# tumopp-passenger
+# Comet
+**Co**mputational **m**odeling of **e**volving **t**umors
 
-this is a modification of tumopp package with passenger mutation recorded in each cell division.
+this is a modification of tumopp, a single-cell based spatial tumor growth simulation framework.
+[Project page on GitHub](https://github.com/heavywatal/tumopp)
 
-The differences between this version and the original tumopp packages is:
-- passenger mutations are generated and printed out for each cell
-- all dead cells and lineages are printed out (for lineage tracing)
-- Metastatic seeding cells are sampled randomly over time (removed from the growing tumor)
-
-[![Build Status](https://travis-ci.org/heavywatal/tumopp.svg?branch=master)](https://travis-ci.org/heavywatal/tumopp)
+The differences between Comet and the original tumopp packages is:
+- [x] passenger mutations are generated and printed out for each cell
+- [x] all dead cells and lineages are printed out (for lineage tracing)
+- [x] Metastatic seeding cells are sampled randomly over time (removed from the growing tumor)
 
 *tumopp* is a fast and flexible tumor growth simulator.
 The core library is written in C++.
-It can be installed and run via [R package](https://github.com/heavywatal/rtumopp/).
-
 
 ## Requirements
 
@@ -30,21 +28,9 @@ The following libraries are optional or automatically installed:
 
 ## Installation
 
-See [tumopp R package](https://heavywatal.github.io/rtumopp/).
-
-
-## Alternative installation for command-line execution
-
-The easiest way is to use [Homebrew](https://brew.sh/).
-The following command installs tumopp with its dependencies:
 ```sh
-brew install heavywatal/tap/tumopp
-```
-
-You can manually install the latest version from source code to an arbitrary `DESTINATION`:
-```sh
-git clone https://github.com/heavywatal/tumopp.git
-cd tumopp/
+git clone https://github.umn.edu/sunpath/Comet.git
+cd Comet/
 mkdir build
 cd build/
 DESTINATION=${HOME}/local
@@ -60,17 +46,5 @@ tumopp -h
 tumopp -N20000 -D3 -Chex -k100 -d0.1 -m0.5 -o OUTPUT_DIR
 ```
 
-
-## API Document
-
-- [Online documentation generated with doxygen](https://heavywatal.github.io/tumopp/)
-- @ref params
-
-
-## Reference
-
-Watal M. Iwasaki and Hideki Innan (2017)
-"Simulation Framework for Generating Intratumor Heterogeneity Patterns in a Cancer Cell Population"
-[*PLOS ONE* 12(9): e0184229](https://doi.org/10.1371/journal.pone.0184229)
-
-[Project page on GitHub](https://github.com/heavywatal/tumopp)
+Reference:
+to be added
