@@ -1,15 +1,12 @@
 # Comet
 **Co**mputational **m**odeling of **e**volving **t**umors
 
-Comet is built on [Tumopp](https://github.com/heavywatal/tumopp), a single-cell based, flexible spatial tumor growth simulation framework.
+Comet is built on [Tumopp](https://github.com/heavywatal/tumopp), a single-cell based, flexible and efficient spatial tumor growth simulation framework written in C++.
 
-The differences between Comet and the original tumopp packages is:
+The differences between Comet and the original tumopp packages are:
 - [x] passenger mutations are generated and printed out for each cell
 - [x] all dead cells and lineages are printed out (for lineage tracing)
 - [x] Metastatic seeding cells are sampled randomly over time (removed from the growing tumor)
-
-*tumopp* is a fast and flexible tumor growth simulator.
-The core library is written in C++.
 
 ## Requirements
 
