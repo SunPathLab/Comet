@@ -48,5 +48,4 @@ tumopp -N1000000 -D3 -Cmoore -k1 -u 0.15 -b 0.25 -d 0.18 --ub 0.0005 --mb 0.05 -
 R. Sun, A. N. Nikolakopoulos and J. Foo, **Elements and Evolutionary Determinants of Genomic Divergence Between Paired Primary and Metastatic Tumors**. _Under Review_, 2020
 
 ## Author:
-Ruping Sun
-Athanasios Nikolakopoulos
+Ruping Sun, Athanasios Nikolakopoulos
