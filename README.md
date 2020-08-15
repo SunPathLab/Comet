@@ -8,6 +8,8 @@ The differences between Comet and the original tumopp packages are:
 - [x] all dead cells and lineages are printed out (for lineage tracing)
 - [x] Metastatic seeding cells are sampled randomly over time (removed from the growing tumor)
 
+Test
+
 ## Requirements
 
 - Unix-like environment (macOS, Linux, WSL, MinGW on MSYS2, etc.)
