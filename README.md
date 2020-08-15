@@ -41,7 +41,7 @@ PATH=${DESTINATION}/bin:$PATH
 Example:
 ```sh
 tumopp -h
-tumopp -N20000 -D3 -Chex -k100 -d0.1 -m0.5 -o OUTPUT_DIR
+tumopp -N1000000 -D3 -Cmoore -k1 -u 0.15 -b 0.25 -d 0.18 --ub 0.0005 --mb 0.05 --extinction 100000 --local linear --seedingSize 5000 -o $OUTPUT_DIR
 ```
 
 ## Reference:
@@ -49,3 +49,4 @@ to be added
 
 ## Author:
 Ruping Sun
+Athanasios Nikolakopoulos
