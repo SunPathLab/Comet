@@ -40,8 +40,8 @@ PATH=${DESTINATION}/bin:$PATH
 
 Example:
 ```sh
-tumopp -h
-tumopp -N1000000 -D3 -Cmoore -k1 -u 0.15 -b 0.25 -d 0.18 --ub 0.0005 --mb 0.05 --extinction 100000 --local linear --seedingSize 5000 -o $OUTPUT_DIR
+comet -h
+comet -N1000000 -D3 -Cmoore -k1 -u 0.15 -b 0.25 -d 0.18 --ub 0.0005 --mb 0.05 --extinction 100000 --local linear --seedingSize 5000 -o $OUTPUT_DIR
 ```
 
 ## Reference:
