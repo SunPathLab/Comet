@@ -46,7 +46,7 @@ inline clipp::group general_options(nlohmann::json* vm) {
     `--seed`            | -              | -
 */
 inline clipp::group simulation_options(nlohmann::json* vm) {
-    const std::string OUT_DIR = wtl::strftime("tumopp_%Y%m%d_%H%M%S");
+    const std::string OUT_DIR = wtl::strftime("comet_%Y%m%d_%H%M%S");
     const int seed = static_cast<int>(std::random_device{}()); // 32-bit signed integer for R
     return (
       wtl::option(vm, {"D", "dimensions"}, 3u),

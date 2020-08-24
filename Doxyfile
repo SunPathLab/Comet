@@ -4,7 +4,8 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "tumopp: Tumor growth simulator in C++"
+#PROJECT_NAME           = "tumopp: Tumor growth simulator in C++"
+PROJECT_NAME           = "comet: Computational modeling of evolving tumors"
 PROJECT_NUMBER         =
 PROJECT_BRIEF          =
 PROJECT_LOGO           =

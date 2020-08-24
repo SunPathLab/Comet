@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(tumopp
+project(comet
   VERSION 0.8.4
   LANGUAGES CXX)
 
