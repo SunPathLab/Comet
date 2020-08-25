@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 project(comet
-  VERSION 0.8.4
+  VERSION 0.1.0
   LANGUAGES CXX)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
