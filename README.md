@@ -45,9 +45,9 @@ comet -N1000000 -D3 -Cmoore -k1 -u 0.15 -b 0.25 -d 0.18 --ub 0.0005 --mb 0.05 --
 ```
 
 ## Reference:
-Ruping Sun and Athanasios N. Nikolakopoulos
-**Elements and Evolutionary Determinants of Genomic Divergence Between Paired Primary and Metastatic Tumors**,
-__bioRxiv 2020.08.24.262378__;
+Ruping Sun and Athanasios N. Nikolakopoulos\
+**Elements and Evolutionary Determinants of Genomic Divergence Between Paired Primary and Metastatic Tumors**,\
+__bioRxiv 2020.08.24.262378__,\
 ☕**DOI:** [10.1101/2020.08.24.262378](https://doi.org/10.1101/2020.08.24.262378)
 
 ## Author:
