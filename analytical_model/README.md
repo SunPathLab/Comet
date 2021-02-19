@@ -6,7 +6,7 @@ The analytical model is build using the Julia programming Language. Information 
 - LinearAlgebra, SparseArrays, Statistics, StatsBase
 - PGFPlotsX, Colors, LaTeXStrings (for reproducing the plots)
 
-The aforementioned packages can all be installed within julia using
+The aforementioned packages can all be installed within julia as follows:
 
 
 ### Package Installation
