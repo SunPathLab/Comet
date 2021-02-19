@@ -9,7 +9,7 @@ The analytical model is build using the Julia programming Language. Information 
 The aforementioned packages can all be installed within julia using
 
 
-## Installation
+### Package Installation
 
 ```julia
 ] add (name_of_the_package)
