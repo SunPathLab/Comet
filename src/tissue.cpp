@@ -122,10 +122,24 @@ bool Tissue::grow(const size_t max_size, const double max_time,
                continue;
 
             }
-          
-            const auto daughter = std::make_shared<Cell>(*mother);
-            if (insert(daughter)) {                             // if insert is successful
-                const auto ancestor = std::make_shared<Cell>(*mother);
+
+            // ruping: consider WGD here for the mother (WGD does not change cell location)
+	    const auto ancestor = std::make_shared<Cell>(*mother);     //make a copy of the mother cell
+	    auto wgd_result = mother->wgd(*engine_);   // wgd occur at a rare rate. it only occur once. if the cell already has wgd, it won't acquire more wgds.
+	    wgds_ << wgd_result;         //record the WGD
+	    
+	    if (!wgd_result.empty()) {   //WGD occurred
+	      
+	      //need to update the cell id, and so on
+	      ancestor->set_time_of_death(time_, extant_cells_.size());                       //ruping: let the original cell die
+	      mother->set_time_of_birth(time_, ++id_tail_, ancestor, extant_cells_.size());   //fresh the id for the WGDed cell, it stays in the extant_cells_
+              queue_push(mother);                                                             //push the WGDed cell into queue
+	      
+	    } else {     // No WGD, division and insert daughter cell
+	    
+	      const auto daughter = std::make_shared<Cell>(*mother);
+	      if (insert(daughter)) {                             // if insert the new born cell is successful
+                //const auto ancestor = std::make_shared<Cell>(*mother);
                 ancestor->set_time_of_death(time_, extant_cells_.size());   //ruping
                 mother->set_time_of_birth(time_, ++id_tail_, ancestor, extant_cells_.size());
                 daughter->differentiate(*engine_);
@@ -134,9 +148,9 @@ bool Tissue::grow(const size_t max_size, const double max_time,
                 drivers_ << mother->mutate(*engine_, *engine3_);
                 drivers_ << daughter->mutate(*engine_, *engine3_);
                 if (! stopMutH) {                                 //ruping
-                   passengers_ << mother->mutate2(*engine2_, *engine3_);
-                   passengers_ << daughter->mutate2(*engine2_, *engine3_);
-                } else {                                          //ruping
+		  passengers_ << mother->mutate2(*engine2_, *engine3_);
+		  passengers_ << daughter->mutate2(*engine2_, *engine3_);
+                } else {                                          //ruping, stop passenger mutation when tumor reach half size, to reduce memory usage
                   if (cur_size <= max_size*0.5) {
                     passengers_ << mother->mutate2(*engine2_, *engine3_);
                     passengers_ << daughter->mutate2(*engine2_, *engine3_);
@@ -144,21 +158,22 @@ bool Tissue::grow(const size_t max_size, const double max_time,
                 }
 
                 if (extant_cells_.size() == mutation_timing) {  //introduce mutation at specific cell
-                    mutation_timing = 0u; // once
-                    drivers_ << daughter->force_mutate(*engine_);
+		  mutation_timing = 0u; // once
+		  drivers_ << daughter->force_mutate(*engine_);
                 }
                 
                 queue_push(mother);
                 queue_push(daughter);
                 const auto size = extant_cells_.size();
                 if ((size % progress_interval) == 0u) {
-                    if (verbose) std::cerr << "\r" << size;
-                    if (benchmark_) benchmark_->append(size);
+		  if (verbose) std::cerr << "\r" << size;
+		  if (benchmark_) benchmark_->append(size);
                 }
-            } else {
+	      } else {
                 queue_push(mother, true);
                 continue;                            // skip write()
-            }
+	      }
+	    }
             
         } else if (mother->next_event() == Event::death) {
           
@@ -418,6 +433,11 @@ std::ostream& Tissue::write_drivers(std::ostream& ost) const {
     return ost;
 }
 
+std::ostream& Tissue::write_wgds(std::ostream& ost) const {    //ruping WGD
+  ost << "id\tevent\n" << wgds_.rdbuf();
+  return ost;
+}
+  
 std::ostream& Tissue::write_passengers(std::ostream& ost) const {
     ost << "id\tcoor\n" << passengers_.rdbuf();
     return ost;

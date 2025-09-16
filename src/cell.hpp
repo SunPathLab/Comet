@@ -73,7 +73,8 @@ struct CellParams {
     //! \f$\sigma_\rho\f$
     double SD_MIGRA = 0.0;
     //! \f$\mu_\alpha\f$
-    double RATE_PASSENGER = 0.0;
+    double RATE_PASSENGER = 0.0;    
+    double RATE_PASSENGER_WGD = 0.0;  //add wgd rate to double the rate_passenger
 };
 
 /*! @brief Cancer cell
@@ -95,7 +96,8 @@ class Cell {
       time_of_birth_(other.time_of_birth_),
       coord_(other.coord_),
       id_(other.id_),
-      TsizeNow_(other.TsizeNow_),  // ruping
+      TsizeNow_(other.TsizeNow_),      // ruping
+      wgd_status_(other.wgd_status_),  // ruping WGD
       proliferation_capacity_(other.proliferation_capacity_) {}
     //! Destructor
     ~Cell() noexcept = default;
@@ -119,6 +121,8 @@ class Cell {
     double delta_time(urbg_t&, double now, double positional_value, bool surrounded=false);
     //! Change #proliferation_capacity_ stochastically
     void differentiate(urbg_t&);
+    //! Change WGD status
+    std::string wgd(urbg_t&);            //ruping WGD
     //! Set #time_of_birth_; reset other properties
     void set_time_of_birth(double t, unsigned i, const std::shared_ptr<Cell>& ancestor, unsigned TsizeNow) noexcept {
         time_of_birth_ = t;
@@ -133,7 +137,9 @@ class Cell {
     void increase_death_rate() noexcept {event_rates_->death_rate = birth_rate();}
     //! Check #proliferation_capacity_
     bool is_differentiated() const noexcept {return proliferation_capacity_ >= 0;}
-
+    //! Check WGD status
+    bool is_wgd() const noexcept {return wgd_status_ > 0;}   // ruping WGD
+  
     //! @name Setter functions
     //@{
     //! Add to #coord_
@@ -201,6 +207,8 @@ class Cell {
     unsigned id_;
     //! ruping Current Tumor Size
     unsigned TsizeNow_;
+    //! ruping WGD status
+    unsigned wgd_status_ = 0;
     //! \f$\omega\f$; stem cell if negative
     int8_t proliferation_capacity_ = -1;
     //! next event: birth, death, or migration

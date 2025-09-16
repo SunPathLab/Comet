@@ -47,6 +47,8 @@ class Simulation {
     std::string snapshots() const;
     //! Use Tissue.write_drivers
     std::string drivers() const;
+    //! Use Tissue.write_wgds  ruping
+    std::string wgds() const;
     //! Use Tissue.write_passengers
     std::string passengers() const;
     //! Use Tissue.write_benchmark

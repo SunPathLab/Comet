@@ -53,6 +53,10 @@ void write(tumopp::Simulation& simulation) {
         ofstream ofs{"drivers" + ext};
         tissue.write_drivers(ofs);
     }
+    if (tissue.has_wgds()) {
+        ofstream ofs{"wgds" + ext};
+        tissue.write_wgds(ofs);
+    } 
     if (tissue.has_benchmark()) {
         ofstream ofs{"benchmark" + ext};
         tissue.write_benchmark(ofs);

@@ -53,11 +53,13 @@ bernoulli_distribution BERN_MUT_BIRTH(Cell::param().RATE_BIRTH);
 bernoulli_distribution BERN_MUT_DEATH(Cell::param().RATE_DEATH);
 bernoulli_distribution BERN_MUT_ALPHA(Cell::param().RATE_ALPHA);
 bernoulli_distribution BERN_MUT_MIGRA(Cell::param().RATE_MIGRA);
+bernoulli_distribution BERN_WGD (Cell::param().RATE_WGD);       //ruping WGD
 std::normal_distribution<double> GAUSS_BIRTH(Cell::param().MEAN_BIRTH, Cell::param().SD_BIRTH);
 std::normal_distribution<double> GAUSS_DEATH(Cell::param().MEAN_DEATH, Cell::param().SD_DEATH);
 std::normal_distribution<double> GAUSS_ALPHA(Cell::param().MEAN_ALPHA, Cell::param().SD_ALPHA);
 std::normal_distribution<double> GAUSS_MIGRA(Cell::param().MEAN_MIGRA, Cell::param().SD_MIGRA);
 std::poisson_distribution<int> poisson_distribution (Cell::param().RATE_PASSENGER);
+std::poisson_distribution<int> poisson_distribution_wgd (Cell::param().RATE_PASSENGER_WGD);
 std::uniform_int_distribution<int> uniform_distribution(1000001, 50000000); // define the range of mutational space, here exome
 std::uniform_int_distribution<int> uniform_distribution_birth(1, 200000);  // define the range of driver (birth rate) mutational space
 std::uniform_int_distribution<int> uniform_distribution_migrate(200001, 500000);   // define the range of driver (death rate) mutational space
@@ -74,11 +76,13 @@ void Cell::param(const param_type& p) {
     BERN_MUT_DEATH.param(PARAM_.RATE_DEATH);
     BERN_MUT_ALPHA.param(PARAM_.RATE_ALPHA);
     BERN_MUT_MIGRA.param(PARAM_.RATE_MIGRA);
+    BERN_WGD.param(PARAM_.RATE_WGD);
     GAUSS_BIRTH.param(decltype(GAUSS_BIRTH)::param_type(PARAM_.MEAN_BIRTH, PARAM_.SD_BIRTH));
     GAUSS_DEATH.param(decltype(GAUSS_DEATH)::param_type(PARAM_.MEAN_DEATH, PARAM_.SD_DEATH));
     GAUSS_ALPHA.param(decltype(GAUSS_ALPHA)::param_type(PARAM_.MEAN_ALPHA, PARAM_.SD_ALPHA));
     GAUSS_MIGRA.param(decltype(GAUSS_MIGRA)::param_type(PARAM_.MEAN_MIGRA, PARAM_.SD_MIGRA));
-    poisson_distribution.param(decltype(poisson_distribution)::param_type(PARAM_.RATE_PASSENGER));   //ruping
+    poisson_distribution.param(decltype(poisson_distribution)::param_type(PARAM_.RATE_PASSENGER));               //ruping
+    poisson_distribution_wgd.param(decltype(poisson_distribution_wgd)::param_type(PARAM_.RATE_PASSENGER_WGD));   //ruping rate of passenger mutation post-WGD
 }
 
 void Cell::differentiate(urbg_t& engine) {
@@ -87,6 +91,20 @@ void Cell::differentiate(urbg_t& engine) {
     proliferation_capacity_ = static_cast<int8_t>(PARAM_.MAX_PROLIFERATION_CAPACITY);
 }
 
+std::string Cell::wgd(urbg_t& engine) {  //ruping WGD
+    auto oss = wtl::make_oss();
+    if (is_wgd()) {                      // already has WGD
+      return oss.str();
+    } else {
+      if (BERN_MUT_WGD(engine)) {
+        oss << id_ << "\twgd" << "\n";
+	wgd_status_ += 1;                // change wgd_status of the cell
+      }
+      return oss.str();
+    }
+}
+
+  
 std::string Cell::mutate(urbg_t& engine, urbg_t& engine3) {
     auto oss = wtl::make_oss();
     if (BERN_MUT_BIRTH(engine)) {
@@ -116,11 +134,12 @@ std::string Cell::mutate(urbg_t& engine, urbg_t& engine3) {
     return oss.str();
 }
  
-std::string Cell::mutate2(urbg_t& engine2, urbg_t& engine3) {
+std::string Cell::mutate2(urbg_t& engine2, urbg_t& engine3) {    //ruping: passenger mutations, now considers WGD
     auto oss = wtl::make_oss();
     auto n_passengers = poisson_distribution(engine2);
+    if (is_wgd()) n_passengers = poisson_distribution_wgd(engine2);
+
     std::string passengers = "";
-    
     for(int n=0; n < n_passengers; ++n)
       passengers = passengers + std::to_string(uniform_distribution(engine3)) + ",";
     

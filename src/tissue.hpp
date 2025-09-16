@@ -65,6 +65,8 @@ class Tissue {
     std::ostream& write_snapshots(std::ostream&) const;
     //! Write #drivers_
     std::ostream& write_drivers(std::ostream&) const;
+    //! Write #wgds_ ruping
+    std::ostream& write_wgds(std::ostream&) const;     //ruping WGD
     //! Write #passengers_
     std::ostream& write_passengers(std::ostream&) const;
     //! Write #seedingCells_
@@ -76,6 +78,7 @@ class Tissue {
     //! @cond
     bool has_snapshots() const {return snapshots_.rdbuf()->in_avail();};
     bool has_drivers() const {return drivers_.rdbuf()->in_avail();}
+    bool has_wgds() const {return wgds_.rdbuf()->in_avail();}  //ruping WGD
     bool has_benchmark() const {return bool(benchmark_);}
     //! @endcond
 
@@ -187,6 +190,8 @@ class Tissue {
 
     //! record driver mutations
     std::stringstream drivers_;
+    //! record wgd (ruping)
+    std::stringstream wgds_;
     //! record passenger mutations
     std::stringstream passengers_;
     //! record seeding cells

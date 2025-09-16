@@ -95,6 +95,7 @@ inline clipp::group simulation_options(nlohmann::json* vm) {
     `-k,--shape`        | \f$k\f$             | CellParams::GAMMA_SHAPE
     `-p,--symmetric`    | \f$p_s\f$           | CellParams::PROB_SYMMETRIC_DIVISION
     `-r,--prolif`       | \f$\omega_{\max}\f$ | CellParams::MAX_PROLIFERATION_CAPACITY
+    `--uw`              | \f$\mu_\wgd\f$      | CellParams::RATE_WGD
     `--ub`              | \f$\mu_\beta\f$     | CellParams::RATE_BIRTH
     `--ud`              | \f$\mu_\delta\f$    | CellParams::RATE_DEATH
     `--um`              | \f$\mu_\rho\f$      | CellParams::RATE_MIGRA
@@ -119,7 +120,8 @@ cell_options(nlohmann::json* vm, EventRates* init_event_rates, CellParams* cell_
         "p_s: Probability of symmetric division"),
       wtl::option(vm, {"r", "prolif"}, &cell_params->MAX_PROLIFERATION_CAPACITY,
         u8"ω: Maximum number of division for a TAC"),
-      wtl::option(vm, {"u", "upassenger"}, &cell_params->RATE_PASSENGER, u8"μ"),  
+      wtl::option(vm, {"u", "upassenger"}, &cell_params->RATE_PASSENGER, u8"μ"),
+      wtl::option(vm, {"uw", "uwgd"}, &cell_params->RATE_WGD, u8"μ_w"),  //ruping WGD
       (
         wtl::option(vm, {"ub"}, &cell_params->RATE_BIRTH, u8"μ_β"),
         wtl::option(vm, {"ud"}, &cell_params->RATE_DEATH, u8"μ_δ"),
@@ -235,6 +237,12 @@ std::string Simulation::drivers() const {
     if (!tissue_->has_drivers()) return std::string{};
     std::ostringstream oss;
     tissue_->write_drivers(oss);
+    return oss.str();
+}
+std::string Simulation::wgds() const {    //ruping WGD
+    if (!tissue_->has_wgds()) return std::string{};
+    std::ostringstream oss;
+    tissue_->write_wgds(oss);
     return oss.str();
 }
 std::string Simulation::passengers() const {
