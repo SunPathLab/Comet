@@ -75,6 +75,7 @@ struct CellParams {
     //! \f$\mu_\alpha\f$
     double RATE_PASSENGER = 0.0;    
     double RATE_PASSENGER_WGD = 0.0;  //add wgd rate to double the rate_passenger
+    double RATE_WGD = 0.0;
 };
 
 /*! @brief Cancer cell

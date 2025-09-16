@@ -96,7 +96,7 @@ std::string Cell::wgd(urbg_t& engine) {  //ruping WGD
     if (is_wgd()) {                      // already has WGD
       return oss.str();
     } else {
-      if (BERN_MUT_WGD(engine)) {
+      if (BERN_WGD(engine)) {
         oss << id_ << "\twgd" << "\n";
 	wgd_status_ += 1;                // change wgd_status of the cell
       }

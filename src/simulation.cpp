@@ -95,7 +95,9 @@ inline clipp::group simulation_options(nlohmann::json* vm) {
     `-k,--shape`        | \f$k\f$             | CellParams::GAMMA_SHAPE
     `-p,--symmetric`    | \f$p_s\f$           | CellParams::PROB_SYMMETRIC_DIVISION
     `-r,--prolif`       | \f$\omega_{\max}\f$ | CellParams::MAX_PROLIFERATION_CAPACITY
+    `--u`               | \f$\mu\f$           | CellParams::RATE_PASSENGER
     `--uw`              | \f$\mu_\wgd\f$      | CellParams::RATE_WGD
+    `--uwp`             | \f$\mu_\post_wgd\f$ | CellParams::RATE_PASSENGER_WGD
     `--ub`              | \f$\mu_\beta\f$     | CellParams::RATE_BIRTH
     `--ud`              | \f$\mu_\delta\f$    | CellParams::RATE_DEATH
     `--um`              | \f$\mu_\rho\f$      | CellParams::RATE_MIGRA
@@ -121,7 +123,8 @@ cell_options(nlohmann::json* vm, EventRates* init_event_rates, CellParams* cell_
       wtl::option(vm, {"r", "prolif"}, &cell_params->MAX_PROLIFERATION_CAPACITY,
         u8"ω: Maximum number of division for a TAC"),
       wtl::option(vm, {"u", "upassenger"}, &cell_params->RATE_PASSENGER, u8"μ"),
-      wtl::option(vm, {"uw", "uwgd"}, &cell_params->RATE_WGD, u8"μ_w"),  //ruping WGD
+      wtl::option(vm, {"uw", "uwgd"}, &cell_params->RATE_WGD, u8"μ_w"),                     //ruping WGD
+      wtl::option(vm, {"uwp", "upassengerwgd"}, &cell_params->RATE_PASSENGER_WGD, u8"μ_w"),  //ruping WGD
       (
         wtl::option(vm, {"ub"}, &cell_params->RATE_BIRTH, u8"μ_β"),
         wtl::option(vm, {"ud"}, &cell_params->RATE_DEATH, u8"μ_δ"),
