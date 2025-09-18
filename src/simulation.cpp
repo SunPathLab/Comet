@@ -99,8 +99,11 @@ inline clipp::group simulation_options(nlohmann::json* vm) {
     `--uw`              | \f$\mu_\wgd\f$      | CellParams::RATE_WGD
     `--uwp`             | \f$\mu_\post_wgd\f$ | CellParams::RATE_PASSENGER_WGD
     `--ub`              | \f$\mu_\beta\f$     | CellParams::RATE_BIRTH
+    `--ubw`             | \f$\mu_\beta_w\f$   | CellParams::RATE_BIRTH_WGD
     `--ud`              | \f$\mu_\delta\f$    | CellParams::RATE_DEATH
+    `--udw`             | \f$\mu_\delta_w\f$  | CellParams::RATE_DEATH_WGD
     `--um`              | \f$\mu_\rho\f$      | CellParams::RATE_MIGRA
+    `--umw`             | \f$\mu_\rho_w\f$    | CellParams::RATE_MIGRA_WGD
     `--mb`              | \f$\bar s_\beta\f$  | CellParams::MEAN_BIRTH
     `--md`              | \f$\bar s_\delta\f$ | CellParams::MEAN_DEATH
     `--mm`              | \f$\bar s_\rho\f$   | CellParams::MEAN_MIGRA
@@ -127,9 +130,12 @@ cell_options(nlohmann::json* vm, EventRates* init_event_rates, CellParams* cell_
       wtl::option(vm, {"uwp", "upassengerwgd"}, &cell_params->RATE_PASSENGER_WGD, u8"μ_w"),  //ruping WGD
       (
         wtl::option(vm, {"ub"}, &cell_params->RATE_BIRTH, u8"μ_β"),
+	wtl::option(vm, {"ubw"}, &cell_params->RATE_BIRTH_WGD, u8"μ_β"),
         wtl::option(vm, {"ud"}, &cell_params->RATE_DEATH, u8"μ_δ"),
+	wtl::option(vm, {"udw"}, &cell_params->RATE_DEATH_WGD, u8"μ_δ"),
         wtl::option(vm, {"ua"}, &cell_params->RATE_ALPHA, u8"μ_α"),
-        wtl::option(vm, {"um"}, &cell_params->RATE_MIGRA, u8"μ_ρ")
+        wtl::option(vm, {"um"}, &cell_params->RATE_MIGRA, u8"μ_ρ"),
+	wtl::option(vm, {"umw"}, &cell_params->RATE_MIGRA_WGD, u8"μ_ρ")
       ).doc("Rate of driver mutations:"),
       (
         wtl::option(vm, {"mb"}, &cell_params->MEAN_BIRTH, u8"E[s_β]"),

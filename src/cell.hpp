@@ -50,12 +50,15 @@ struct CellParams {
     unsigned MAX_PROLIFERATION_CAPACITY = 10u;
     //! \f$\mu_\beta\f$
     double RATE_BIRTH = 0.0;
+    double RATE_BIRTH_WGD = 0.0;
     //! \f$\mu_\delta\f$
     double RATE_DEATH = 0.0;
+    double RATE_DEATH_WGD = 0.0;
     //! \f$\mu_\alpha\f$
     double RATE_ALPHA = 0.0;
     //! \f$\mu_\rho\f$
     double RATE_MIGRA = 0.0;
+    double RATE_MIGRA_WGD = 0.0;
     //! \f$\bar s_\beta\f$
     double MEAN_BIRTH = 0.0;
     //! \f$\bar s_\delta\f$

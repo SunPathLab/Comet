@@ -50,13 +50,12 @@ class bernoulli_distribution {
 GammaFactory GAMMA_FACTORY(Cell::param().GAMMA_SHAPE);
 bernoulli_distribution BERN_SYMMETRIC(Cell::param().PROB_SYMMETRIC_DIVISION);
 bernoulli_distribution BERN_MUT_BIRTH(Cell::param().RATE_BIRTH);
-bernoulli_distribution BERN_MUT_BIRTH_WGD(2 * Cell::param().RATE_BIRTH);   //double the birth driver rate for WGD
+bernoulli_distribution BERN_MUT_BIRTH_WGD(Cell::param().RATE_BIRTH_WGD);   //double the birth driver rate for WGD
 bernoulli_distribution BERN_MUT_DEATH(Cell::param().RATE_DEATH);
-bernoulli_distribution BERN_MUT_DEATH_WGD(2 * Cell::param().RATE_DEATH);     // double the death driver rate for WGD
+bernoulli_distribution BERN_MUT_DEATH_WGD(Cell::param().RATE_DEATH_WGD);     // double the death driver rate for WGD
 bernoulli_distribution BERN_MUT_ALPHA(Cell::param().RATE_ALPHA);
-bernoulli_distribution BERN_MUT_ALPHA_WGD(2 * Cell::param().RATE_ALPHA);     // double the death driver per division rate for WGD
 bernoulli_distribution BERN_MUT_MIGRA(Cell::param().RATE_MIGRA);
-bernoulli_distribution BERN_MUT_MIGRA_WGD(2 * Cell::param().RATE_MIGRA);    // double the migration driver rate for WGD
+bernoulli_distribution BERN_MUT_MIGRA_WGD(Cell::param().RATE_MIGRA_WGD);    // double the migration driver rate for WGD
 bernoulli_distribution BERN_WGD (Cell::param().RATE_WGD);       //ruping WGD
 std::normal_distribution<double> GAUSS_BIRTH(Cell::param().MEAN_BIRTH, Cell::param().SD_BIRTH);
 std::normal_distribution<double> GAUSS_DEATH(Cell::param().MEAN_DEATH, Cell::param().SD_DEATH);
@@ -77,13 +76,12 @@ void Cell::param(const param_type& p) {
     GAMMA_FACTORY.param(PARAM_.GAMMA_SHAPE);
     BERN_SYMMETRIC.param(PARAM_.PROB_SYMMETRIC_DIVISION);
     BERN_MUT_BIRTH.param(PARAM_.RATE_BIRTH);
-    BERN_MUT_BIRTH_WGD.param(2 * PARAM_.RATE_BIRTH);
+    BERN_MUT_BIRTH_WGD.param(PARAM_.RATE_BIRTH_WGD);
     BERN_MUT_DEATH.param(PARAM_.RATE_DEATH);
-    BERN_MUT_DEATH_WGD.param(2 * PARAM_.RATE_DEATH);
+    BERN_MUT_DEATH_WGD.param(PARAM_.RATE_DEATH_WGD);
     BERN_MUT_ALPHA.param(PARAM_.RATE_ALPHA);
-    BERN_MUT_ALPHA_WGD.param(2 * PARAM_.RATE_ALPHA);
     BERN_MUT_MIGRA.param(PARAM_.RATE_MIGRA);
-    BERN_MUT_MIGRA_WGD.param(2 * PARAM_.RATE_MIGRA);
+    BERN_MUT_MIGRA_WGD.param(PARAM_.RATE_MIGRA_WGD);
     BERN_WGD.param(PARAM_.RATE_WGD);
     GAUSS_BIRTH.param(decltype(GAUSS_BIRTH)::param_type(PARAM_.MEAN_BIRTH, PARAM_.SD_BIRTH));
     GAUSS_DEATH.param(decltype(GAUSS_DEATH)::param_type(PARAM_.MEAN_DEATH, PARAM_.SD_DEATH));
@@ -128,7 +126,7 @@ std::string Cell::mutate(urbg_t& engine, urbg_t& engine3) {
         oss << id_ << "\tdelta\t" << std::to_string(uniform_distribution_death(engine3)) << "\t" << s << "\n";
         event_rates_->death_rate *= (s += 1.0);
       }
-      if (BERN_MUT_ALPHA_WGD(engine)) {
+      if (BERN_MUT_ALPHA(engine)) {
         event_rates_ = std::make_shared<EventRates>(*event_rates_);
         double s = GAUSS_ALPHA(engine);
         oss << id_ << "\talpha\t" << std::to_string(uniform_distribution_death(engine3)) << "\t" << s << "\n";
@@ -140,8 +138,7 @@ std::string Cell::mutate(urbg_t& engine, urbg_t& engine3) {
         oss << id_ << "\trho\t" << std::to_string(uniform_distribution_migrate(engine3)) << "\t" << s << "\n";
         event_rates_->migra_rate *= (s += 1.0);
       }
-    }
-    else {
+    } else {
       if (BERN_MUT_BIRTH(engine)) {
         event_rates_ = std::make_shared<EventRates>(*event_rates_);
         double s = GAUSS_BIRTH(engine);
